@@ -1942,22 +1942,18 @@ TEMP_X_test = X_test[cols2]
 cols3 = [col for col in X_train.columns if col not in ['BecomeTrade','TradeDateTime','StartTime','ContinuousStartTime']]
 TEMP_X_train = X_train[cols3]
 
-"""Feature Selection""""
+"""Feature Selection"""
 
 from sklearn.ensemble import ExtraTreesClassifier
 rf = ExtraTreesClassifier()
 rf.fit(TEMP_X_train, y_train)
 feature_importance = list(rf.feature_importances_)
 
-#feature_importance.sort(reverse=True)
-
-#feature_importance[:50]
 
 from sklearn.feature_selection import SelectFromModel
 
 model=SelectFromModel(rf,threshold="mean", prefit=True)
 
-#print(model.feature_importances_)
 
 X_new=model.transform(TEMP_X_train)
 
@@ -1969,6 +1965,7 @@ train_temp_x = TEMP_X_train[feature_name]
 test_temp_x = TEMP_X_test[feature_name]
 
 #X_train, X_test are for stacked ensemble method"""
+
 X_train = pd.concat([train_temp_x,time_x_train],axis=1)
 X_test = test_temp_x
 
